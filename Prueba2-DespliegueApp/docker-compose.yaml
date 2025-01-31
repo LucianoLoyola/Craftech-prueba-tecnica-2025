@@ -23,17 +23,16 @@ services:
     restart: always #En caso de frenarse el container, se reinicia
 
   db:
-    image: postgres:15
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+    image: postgres:12.0-alpine
+    container_name: database
+    env_file: ./.env.postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: always
 
 volumes:
-  pgdata: #Volumen que utiliza el servicio de la base de datos para persistir la información.
+  postgres_data:
+  static:
+  media:

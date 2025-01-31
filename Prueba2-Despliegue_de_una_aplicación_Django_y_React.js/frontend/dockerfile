@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm install
 #Copio el resto de los archivos
 COPY . .
-#Construyo la aplicación React
+#Construyo la aplicación React - Genera los archivos estáticos
 RUN npm run build
 
 #Utilizando la estrategia Multistage Building...

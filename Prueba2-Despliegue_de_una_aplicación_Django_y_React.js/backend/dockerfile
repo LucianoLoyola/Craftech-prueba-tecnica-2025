@@ -1,0 +1,28 @@
+#Utilizo python 3.10 slim para la compilación del backend junto con sus dependencias.
+FROM python:3.10-slim AS build
+#Me posiciono en /app
+WORKDIR /app
+#Instalo las dependencias necesarias para la construcción...
+RUN apt-get update && apt-get install -y build-essential libpq-dev
+#Instalo las dependencias necesarias para la aplicación React
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+#Copio el resto de los archivos
+COPY . .
+
+
+
+#Utilizando la estrategia Multistage Building...
+#Ahora debo generar la imagen de producción
+FROM python:3.10-slim
+#Me posiciono en /app
+WORKDIR /app
+#Copio las dependencias instaladas en la etapa de construcción
+COPY --from=build /root/.local /root/.local
+COPY --from=build /app /app
+#Establezco variables de entorno
+ENV PATH=/root/.local/bin:$PATH
+#Expongo el puerto de la aplicación
+EXPOSE 8000
+#Ejecuto la aplicación
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "mi_proyecto.wsgi:application"]

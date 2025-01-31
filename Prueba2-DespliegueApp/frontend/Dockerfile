@@ -1,6 +1,6 @@
 #Utilizo node con alpine para la construcción de la app React
 FROM node:18-alpine AS build
-#Me posiciono en el directio /app de node alpine
+#Me posiciono en el directorio /app y lo establezco como dir de trabajo
 WORKDIR /app
 #Copio el archivo de dependencias en /app
 COPY package*.json ./
@@ -12,11 +12,11 @@ COPY . .
 RUN npm run build
 
 #Utilizando la estrategia Multistage Building...
-#Utilizo Nginx con alpine para el servidor del front
+#Utilizo una segunda imagen, ahora basada en Nginx con alpine para el servidor del front
 FROM nginx:1.23-alpine
-#Copio los archivos construidos con npm al directorio de nginx
+#Copio los archivos estáticos construidos con npm al directorio de nginx
 COPY --from=build /app/build /usr/share/nginx/html
 #Expongo el puerto 80 que utilizará nginx
 EXPOSE 80
-#Comando para ejecutar Nginx
+#Comando para ejecutar Nginx en modo foreground y evitar que se detenga
 CMD ["nginx", "-g", "daemon off;"]

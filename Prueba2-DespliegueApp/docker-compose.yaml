@@ -8,9 +8,20 @@ services:
       - db
     environment:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=postgres
+      - SQL_HOST=db 
+      - SQL_PORT=5432
     ports:
       - "8000:8000"
     restart: always #En caso de frenarse el container, se reinicia
+    networks:
+      - app_network #Red compartida
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn --bind 0.0.0.0:8000 core.wsgi:application"
 
   frontend: #Servicio para el frontend con React
     build:
@@ -21,6 +32,8 @@ services:
     depends_on:
       - backend #No se inicia hasta que se inicie el backend
     restart: always #En caso de frenarse el container, se reinicia
+    networks:
+      - app_network
 
   db:
     image: postgres:12.0-alpine
@@ -31,8 +44,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
   static:
   media:
+
+# Red util para tener comunicacion entre los servicios
+networks:
+  app_network:
+    driver: bridge

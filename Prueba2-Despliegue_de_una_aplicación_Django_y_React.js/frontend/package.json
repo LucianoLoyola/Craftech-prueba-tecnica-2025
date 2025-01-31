@@ -26,6 +26,7 @@
         "redux-thunk": "^2.4.1",
         "sass": "1.32.8",
         "styled-components": "^5.2.1",
+        "test-app-frontend": "file:",
         "web-vitals": "^1.1.0",
         "yup": "^0.32.9"
     },

@@ -1,0 +1,39 @@
+
+services:
+  backend: #Servicio para el backend con Django
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on: #No se inicia hasta que se inicia la base de datos PostgreSQL
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+    ports:
+      - "8000:8000"
+    restart: always #En caso de frenarse el container, se reinicia
+
+  frontend: #Servicio para el frontend con React
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend #No se inicia hasta que se inicie el backend
+    restart: always #En caso de frenarse el container, se reinicia
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata: #Volumen que utiliza el servicio de la base de datos para persistir la información.

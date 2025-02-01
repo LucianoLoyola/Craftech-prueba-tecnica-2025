@@ -12,7 +12,7 @@ Tener instalado **Docker** y **Docker-Compose** en la **PC local** donde se ejec
 
 ## Instructivo para el Deploy en PC local
 
-- **1.** **Clonar** el repositorio "**Craftech-prueba-tecnica-2025**"
+- **1.** **Clonar** el repositorio "**Craftech-prueba-tecnica-2025**" -> *git clone url*
 - **2.** Abrir la **terminal** y posicionarse en "**Prueba2-DespliegueApp**" --> *cd Prueba2-DespliegueApp*
 - **3.** Ejecutar el comando **docker-compose build**
 - **4.** Ejecutar el comando **docker-compose up -d**
@@ -62,21 +62,22 @@ El frontend en React se levanta en **Nginx**, que servirá los archivos estátic
 
 El backend en Django se ejecuta en un contenedor utilizando **Gunicorn**, que escucha en el puerto **8000** dentro del contenedor.
 
-El archivo "docker-compose.yml" en "backend" ya contiene información sobre que debe levantar un container para una base de datos postgres, por lo que respetaré esto y lo voy a mantener en la resolución el ejercicio.
+Existía un archivo "docker-compose.yml" en "backend" (que borré del proyecto dado que integre todo en un solo docker-compose) que contenía información sobre que debe levantar un container para una base de datos postgres, por lo que respetaré esto y lo voy a mantener para la resolución del ejercicio.
 
-Para el ejercicio voy a utilizar Docker para encapsular los servicios de la aplicación (frontend, backend y base de datos). Voy a utilizar un solo archivo docker-compose de manera en que todos los servicios se ejecuten con una sola línea en la terminal. (Esta es la mayor ventaja que nos da docker-compose).
+Para el ejercicio voy a utilizar Docker para encapsular los servicios de la aplicación (frontend, backend y base de datos). Voy a utilizar un solo archivo docker-compose de manera en que todos los servicios se ejecuten con una sola línea en la terminal. (*Esta es la mayor ventaja que nos da docker-compose*).
 
 Estuve analizando las posibles imagenes que puedo utilizar para buildear la aplicación. Comencé a indagar en **Docker Hub** para ver las diferentes alternativas.
 
-Para Node, leí la documentación de este link (https://hub.docker.com/_/node) y determiné que, para un ambiente de pruebas, la versión node con alpine es la mejor opción para utilizar por su bajo peso. Posible mejora: Si se tratase de un ambiente productivo, quizás utilizaría una versión de node con Debian. Utilizar alpine hará que los tiempos de buildeo sean mucho menores.
-Para montar el servidor del front voy a utilizar Nginx ya que es un **servidor web ligero y eficiente**.
+Para **Node**, leí la documentación de este link (https://hub.docker.com/_/node) y determiné que, para un ambiente de pruebas, la versión **node** con **alpine** es la mejor opción para utilizar por su bajo peso. Posible mejora: Si se tratase de un ambiente productivo, quizás utilizaría una versión de node con Debian. Aunque utilizar alpine hará que los tiempos de buildeo sean mucho menores.
+Para montar el servidor del front voy a utilizar **Nginx** ya que es un **servidor web ligero y eficiente**.
 
-Para el caso del frontend con React, voy a aprovechar la estrategia **Multi-stage Building** para reducir el tamaño final de la imagen resultante. Para eso, voy a utilizar **node:18-alpine** para hacer el build de la aplicación react y luego una imagen **nginx-alpine** para que el servidor levante los archivos estáticos. Esto hará que en el entorno de producción solo se levante la imagen de nginx con el archivo estático almacenado en su filesystem. En su dockerfile, divido la construcción de la imagen final en dos etapas. Etapa 1: Utiliza Node Alpine para compilar la aplicación React y en la etapa 2 utilizo una imagen Nginx que obtiene los archivos generados por la etapa 1 y los provee en el servidor.
+En el archivo **Dockerfile** para el caso del **frontend** con React, voy a aprovechar la estrategia **Multi-stage Building** para reducir el tamaño final de la imagen resultante. Para eso, voy a utilizar **node:18-alpine** para hacer el build de la aplicación react y luego una imagen **nginx-alpine** para que el servidor levante los archivos estáticos generados por la imagen de node. Esto hará que en el entorno de producción solo se levante la imagen de nginx con el archivo estático almacenado en su filesystem. En su dockerfile, divido la construcción de la imagen final en dos etapas. Etapa 1: Utiliza Node Alpine para compilar la aplicación React y en la etapa 2 utilizo una imagen Nginx que obtiene los archivos generados por la etapa 1 y los provee en el servidor.
 
-Para Django en el backend, decidí optar por utilizar **python:3.10-slim**. El archivo dockerfile instalará las dependencias necesarias del sistema (el cliente PostreSQL) y luego instalará las dependencias de la aplicación Django almacenadas en requirements.txt. Tras ello, expondrá el puerto **8000** y ejecutará **Gunicorn** para levantar el servidor de la aplicación. 
+En el archivo **Dockerfile** para Django en el **backend**, decidí optar por utilizar **python:3.10-slim**. El archivo dockerfile instalará las dependencias necesarias del sistema (el cliente PostreSQL) y luego instalará las dependencias de la aplicación Django almacenadas en requirements.txt. Tras ello, expondrá el puerto **8000** y ejecutará **Gunicorn** para levantar el servidor de la aplicación. 
 
-Para el archivo docker-compose...
+Para el archivo **docker-compose**...
 Defino los tres servicios: Para el backend la aplicación Django utilizando Gunicorn para el servidor. Para el frontend la aplicación React con nginx. Para la base de datos un servicio PostgreSQL.
 Para que los tres contenedores se comuniquen, voy a necesitar crear una **red** que todos tengan compartida. Esta red de tipo bridge se llama app_network.
-Para persistir los datos de la base de datos PostgreSQL voy a crear el **volumen** postgres_data.
+Para persistir los datos de la base de datos PostgreSQL voy a crear el **volumen** **postgres_data**.
 
+*Nota:* Quité de los archivos .gitignore los archivos de entorno (.env) para que puedan replicar la ejecución de docker-compose.

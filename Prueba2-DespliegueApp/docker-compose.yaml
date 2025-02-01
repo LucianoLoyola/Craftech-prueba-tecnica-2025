@@ -6,22 +6,12 @@ services:
       dockerfile: Dockerfile
     depends_on: #No se inicia hasta que se inicia la base de datos PostgreSQL
       - db
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
-      - SQL_ENGINE=django.db.backends.postgresql
-      - SQL_DATABASE=postgres
-      - SQL_USER=postgres
-      - SQL_PASSWORD=postgres
-      - SQL_HOST=db 
-      - SQL_PORT=5432
+    env_file: ./backend/.env.backend
     ports:
       - "8000:8000"
     restart: always #En caso de frenarse el container, se reinicia
     networks:
       - app_network #Red compartida
-    command: >
-      sh -c "python manage.py migrate &&
-             gunicorn --bind 0.0.0.0:8000 core.wsgi:application"
 
   frontend: #Servicio para el frontend con React
     build:
@@ -38,7 +28,7 @@ services:
   db:
     image: postgres:12.0-alpine
     container_name: database
-    env_file: ./.env.postgres
+    env_file: ./backend/.env.postgres
     ports:
       - 5432:5432
     volumes:

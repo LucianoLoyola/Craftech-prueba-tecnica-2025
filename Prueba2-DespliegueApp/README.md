@@ -32,13 +32,12 @@ Tener AWS CLI instalado y configurado con *aws configure*
 - **2.** **Conectarse desde la terminal utilizando ssh**
   - *ssh -i "Craftech_Prueba2.pem" ubuntu@ec2-54-166-14-178.compute-1.amazonaws.com*
 - **3. Instalar Docker y Docker Compose**
-  - >sudo apt update && sudo apt upgrade -y
-  sudo apt install -y docker.io
-  sudo systemctl enable docker
-sudo systemctl start docker
-sudo usermod -aG docker $USER
-newgrp docker
-sudo apt install -y docker-compose
+  - >sudo apt install -y docker.io
+  - >sudo systemctl enable docker
+  - >sudo systemctl start docker
+  - >sudo usermod -aG docker $USER
+  - >newgrp docker
+  - >sudo apt install -y docker-compose
 
 - **4.** **Clonar el repositorio y configurar el entorno**
   - >cd /home/ubuntu

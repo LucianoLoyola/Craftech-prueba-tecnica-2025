@@ -47,6 +47,12 @@ sudo apt install -y docker-compose
   cd Prueba2-DespliegueApp
 - **5. Buildear la imagen y correr docker-compose**
   - docker-compose up -d
+- **6. Obtener dirección del sitio en AWS**
+  - Lanzar el siguiente comando junto con la dirección IPv4 asignada por AWS
+  - >host 54.166.14.178
+  *178.14.166.54.in-addr.arpa domain name pointer ec2-54-166-14-178.compute-1.amazonaws.com.*
+  - Es probable que el firewall bloquee el tráfico tcp, recomiendo ejecutar este comando para habilitarlo
+  - >sudo ufw allow 5432/tcp
 
 ---
 ## Explicación de la solución propuesta

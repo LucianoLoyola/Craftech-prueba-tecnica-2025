@@ -154,7 +154,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost",
     "http://localhost:80",
     "http://127.0.0.1",
-    "http://127.0.0.1:80"
+    "http://127.0.0.1:80",
+    "http://ec2-54-166-14-178.compute-1.amazonaws.com"
 ]
 
 # ##################################################################### #

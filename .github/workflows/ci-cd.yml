@@ -26,7 +26,8 @@ jobs:
     - name: Build y push a Docker-Hub
       uses: docker/build-push-action@v3
       with:
-        context: .
+        context: ./Prueba3-CICD
+        file: ./Prueba3-CICD/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/nginx:latest
 

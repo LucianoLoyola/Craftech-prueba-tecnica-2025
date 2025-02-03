@@ -40,8 +40,8 @@ jobs:
 
       steps:
         #Obtiene el código del repo
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Pull de la imagen desde Docker Hub
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
         #Realiza el deploy
       - name: Deploy usando docker-compose
         working-directory: ./Prueba3-CICD

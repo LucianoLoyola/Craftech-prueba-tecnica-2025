@@ -84,7 +84,21 @@ Defino los tres servicios: Para el backend la aplicación Django utilizando Guni
 Para que los tres contenedores se comuniquen, voy a necesitar crear una **red** que todos tengan compartida. Esta red de tipo bridge se llama app_network.
 Para persistir los datos de la base de datos PostgreSQL voy a crear el **volumen** **postgres_data**.
 
-*Nota:* Quité de los archivos .gitignore los archivos de entorno (.env) para que puedan replicar la ejecución de docker-compose.
+*Nota:* Quité del *.gitignore* los archivos de entorno (.env) para que puedan replicar la ejecución de docker-compose.
+
+---
+## Capturas
+*EC2 deployeado con éxito*
+![EC2 Deploy](Capturas/Craftech-1.png)
+
+*Conectado a EC2 mediante autenticación SSH*
+![SSH](Capturas/Craftech-2.png)
+
+*Containers ejecutandose en EC2*
+![Containers](Capturas/Craftech-3.png)
+
+---
+
 
 ## Referencias
 - *Clase Docker Craftech:* https://youtu.be/EkJXacEKNpA?si=JRweSL3L8dSSpJLv

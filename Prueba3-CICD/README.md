@@ -28,6 +28,12 @@ Explicación del Pipeline:
 *Nota:* Por simplicidad, realizo el docker-compose up dentro del pipeline. Esta acción podría intercambiarse para realizar la ejecución del docker-compose pero dentro de otra plataforma (por ejemplo, en una instancia de EC2 dentro de AWS, como fue el caso de la prueba 2).
 
 ---
+## Capturas
+*Pipeline ejecutado tras realizar un cambio en index.html y pusheo a github*
+![alt text](Capturas/Craftech-4.png)
+![alt text](Capturas/Craftech-5.png)
+
+---
 
 ## Referencias
 - *Clase CI/CD Craftech:* https://youtu.be/Nz5FkiTH4iY?si=LNNi03ktvWwAYAg-

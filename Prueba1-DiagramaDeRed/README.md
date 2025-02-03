@@ -23,7 +23,7 @@ Se distribuyó la arquitectura en dos Availability Zones (AZs) dentro de la mism
 
 Utilizo un **Bucket S3** para almacenar el contenido estático **(frontend)** de la aplicación web. ***S3 es altamente escalable y ofrece baja latencia.***
 
-Utilizo **DNS Resolution** con **Amazon Route 53** para mapear los recursos de la aplicación a los recursos de AWS.
+Utilizo **DNS Resolution** con **Amazon Route 53** para la resolución de DNS, permitiendo mapear los dominios de la aplicación a los recursos de AWS.
 
 Para distribuir el contenido estático a través de una red global de edge locations, se utiliza **CloudFront** en combinación con S3.
 
@@ -42,7 +42,7 @@ Toda la arquitectura está contenida dentro de una **VPC** con un rango de red p
 
 **Subredes privadas:** Albergan las instancias EC2 (backend) y la base de datos Amazon RDS, garantizando aislamiento.
 
-Para el **consumo de APIs externas**, se dispuso de **NAT Gateways** en las subredes públicas de los AZ de manera en que los EC2 puedan tener comunicación con las APIs externas al pasar por el **Internet Gateway**.
+Para el **consumo de APIs externas**, se dispuso de **NAT Gateways** en las subredes públicas de los AZ de manera en que los EC2 en subredes privadas puedan tener comunicación con las APIs externas al pasar por el **Internet Gateway**.
 
 Para establecer la conexión con el servicio DynamoDB de AWS se utilizan **VCP Endpoints** de manera en que no sea necesario salir a internet para establecer conexión, dando seguridad.
 

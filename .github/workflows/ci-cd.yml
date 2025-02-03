@@ -39,12 +39,14 @@ jobs:
         image: docker/compose:1.29.2 ##Imagen con docker pre instalado
 
       steps:
-        #Obtiene el código del repo
-      - name: Clonar el repositorio
-        uses: actions/checkout@v4
-        #Realiza el deploy
-      - name: Deploy usando docker-compose
-        working-directory: ./Prueba3-CICD
-        run: |
-          docker-compose down
-          docker-compose up -d
+      - name: Deploy en EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
+            docker stop nginx-container || true
+            docker rm nginx-container || true
+            docker run -d --name nginx-container -p 80:80 ${{ secrets.DOCKER_USERNAME }}/nginx:latest

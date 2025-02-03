@@ -35,6 +35,8 @@ jobs:
   deploy:
       runs-on: ubuntu-latest
       needs: build #Depende de la etapa anterior
+      container:
+        image: docker/compose:1.29.2 ##Imagen con docker pre instalado
 
       steps:
         #Obtiene el código del repo

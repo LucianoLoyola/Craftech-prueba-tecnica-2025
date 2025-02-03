@@ -43,6 +43,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22  # Asegurar que el puerto esté definido correctamente
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
             docker stop nginx-container || true

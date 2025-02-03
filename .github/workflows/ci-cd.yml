@@ -44,6 +44,7 @@ jobs:
         uses: actions/checkout@v2
         #Realiza el deploy
       - name: Deploy usando docker-compose
+        working-directory: ./Prueba3-CICD
         run: |
           docker-compose down
           docker-compose up -d

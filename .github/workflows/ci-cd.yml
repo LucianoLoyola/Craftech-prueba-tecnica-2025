@@ -46,6 +46,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            sh -c '
             docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
             docker stop nginx-container || true
             docker rm nginx-container || true

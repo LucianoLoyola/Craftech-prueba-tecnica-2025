@@ -1,6 +1,6 @@
-# Prueba 2
+# Prueba 2 -  Despliegue de una aplicación Django y React.js
 ---
-## - Enunciado
+## Enunciado
 **Despliegue de una aplicación Django y React.js** 
 *Elaborar el deployment dockerizado de una aplicación en django (backend) con frontend en React.js contenida en el repositorio. Es necesario desplegar todos los servicios en un solo docker-compose.
 Se deben entregar los Dockerfiles pertinentes para elaborar el despliegue y justificar la forma en la que elabora el deployment (supervisor, scripts, dockercompose, kubernetes, etc).
@@ -20,7 +20,8 @@ Tener instalado **Docker** y **Docker-Compose** en la **PC local** donde se ejec
 
 ---
 ## Requisitos
-Tener AWS CLI instalado y configurado con *aws configure*
+Tener una cuenta en **AWS**  para utilizar **AWS Console**.
+Instructivo basado en el *free trier de AWS.*
 
 ## Instructivo para el Deploy en AWS
 
@@ -28,7 +29,13 @@ Tener AWS CLI instalado y configurado con *aws configure*
   - Acceder a la cuenta de AWS
   - Ir a la consola EC2
   - Hacer click en "Launch Instance"
-  - LLenar con los datos del EC2 (nombre, os, t2.micro, crear una ssh, almacenamiento, grupos de seguridad)
+  - LLenar con los datos del EC2 
+    - Nombre
+    - OS (Para este instructivo elegí ubuntu)
+    - t2.micro (free tier)
+    - Crear ssh (.pem)
+    - Almacenamiento (Default 8gb)
+    - Grupos de seguridad (*puertos 80, 443, 22*)
 - **2.** **Conectarse desde la terminal utilizando ssh**
   - *ssh -i "Craftech_Prueba2.pem" ubuntu@ec2-54-166-14-178.compute-1.amazonaws.com*
 - **3. Instalar Docker y Docker Compose**
@@ -41,11 +48,10 @@ Tener AWS CLI instalado y configurado con *aws configure*
 
 - **4.** **Clonar el repositorio y configurar el entorno**
   - >cd /home/ubuntu
-  git clone https://github.com/LucianoLoyola/Craftech-prueba-tecnica-2025.git
-  cd Craftech-prueba-tecnica-2025
-  cd Prueba2-DespliegueApp
+  - >git clone https://github.com/LucianoLoyola/Craftech-prueba-tecnica-2025.git
+  - >cd Craftech-prueba-tecnica-2025/Prueba2-DespliegueApp
 - **5. Buildear la imagen y correr docker-compose**
-  - docker-compose up -d
+  - >docker-compose up --build -d
 - **6. Obtener dirección del sitio en AWS**
   - Lanzar el siguiente comando junto con la dirección IPv4 asignada por AWS
   - >host 54.166.14.178

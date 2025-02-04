@@ -39,4 +39,6 @@ El desarrollo de esta prueba técnica me permitió aplicar todos los conocimient
 
 Cada desafío me permitió reforzar mis habilidades en escenarios que reflejan el día a día de un DevOps. Además, implementé una **metodología organizada**, utilizando un tablón de **Miro** para la planificación y una **bitácora de avances** para documentar el proceso.
 
+[Enlace a la bitácora](https://github.com/LucianoLoyola/Craftech-prueba-tecnica-2025/wiki/Bit%C3%A1cora-de-avance)
+
 El resultado final es un conjunto de soluciones funcionales que cumplen con los requerimientos planteados, dejándome con una gran satisfacción y motivación para seguir profundizando en el mundo DevOps.

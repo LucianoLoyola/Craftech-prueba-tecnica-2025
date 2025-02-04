@@ -24,9 +24,12 @@ Este es el **esquema** de ambas soluciones propuestas:
   - Obtiene el código
   - Realiza el deploy
 
-La etapa de buildeo es igual para ambas soluciones. Lo único que se diferencia en ambos pipelines desarrolados es la etapa de Deploy. 
+La etapa de Build es igual en ambas soluciones, pero la etapa de Deploy varía:
 
-Procedo a explicar primero la etapa de Deploy (común a ambas soluciones)
+En la **Solución 1**, el deploy se hace en el propio **runner del pipeline** con Docker Compose.
+En la **Solución 2**, el deploy se hace en una instancia **EC2 de AWS** usando SSH.
+
+Procedo a explicar primero la etapa de Build (común a ambas soluciones)
 
 - **Etapa 1 - Build**
 Para la construcción de la imágen Docker utilizo **Docker Buildx**, el cual me facilita el buildeo de la imágen Docker y el pusheo de la misma a Docker Hub. Elegí Docker Buildx porque es una extensión oficial de Docker.
@@ -39,10 +42,10 @@ Para ejecutar la solución 1, se necesita tener 2 variables secretos en el repos
 - **DOCKER_USERNAME**: *usuario de docker hub*
 - **DOCKER_PASSWORD**: *contraseña de docker hub*
 
-Cada vez que se modifique el archivo **index.html**, se ejecutará el **pipeline** de la **solución 1.**
+Cada vez que se modifique el archivo **index.html**, se ejecutará el **pipeline ci-cd.yaml** de la **solución 1.**
 
 **Solución 2: *ci-cd-EC2.yml***
-Esta solución está más relacionada a una implementación del mundo real, donde el deploy de la imagen se realiza en una instancia **EC2** corriendo en AWS.
+Esta solución está más relacionada a una implementación del mundo real, donde el deploy de la imagen se realiza en una instancia **EC2** corriendo en **AWS**.
 Para ello, se deben tener en cuenta los siguientes requisitos:
 - Tener establecidas las variables secretas necesarias para la solución 1.
 - Crear una instancia EC2
@@ -52,17 +55,24 @@ Para ello, se deben tener en cuenta los siguientes requisitos:
 - Crear una secret variable en el repositorio de github llamada "**EC2_SSH_KEY**" que almacene el contenido del archivo .pem generado al crear la EC2
 - Instalar docker en el OS
 
-Tras haber seguido correctamente todos los pasos, cada vez que se modifique el archivo **index2.html** el **pipeline** se encargará de buildear la imágen, subirla a docker hub, conectarse a la instancia **EC2** mediante ssh, obtener la última imágen recientemente subida de Docker Hub y ejecutar el container con la imágen ya modificada.
+Tras haber seguido correctamente todos los pasos, cada vez que se modifique el archivo **index2.html** el **pipeline ci-cd-EC2.yaml** se encargará de buildear la imágen, subirla a docker hub, conectarse a la instancia **EC2** mediante ssh, obtener la última imágen recientemente subida de Docker Hub y ejecutar el container con la imágen ya modificada.
 
-Considero que la solución 2 es algo que se asemeja más a una implementación en la realidad.
+En entornos reales, los contenedores no suelen desplegarse dentro del runner de CI/CD, sino en servidores en la nube o en Kubernetes. Esta segunda solución refleja mejor un escenario de la realidad.
 
 
 ---
 ## Capturas
-*Pipeline ejecutado tras realizar un cambio en index.html y pusheo a github*
+**Pipeline de la solución 1** ejecutado tras realizar un cambio en index.html y pusheo a github
 ![alt text](Capturas/Craftech-4.png)
 ![alt text](Capturas/Craftech-5.png)
 
+**Pipeline de la solución 2** ejecutado tras realizar un cambio en index2.html
+
+![alt text](Capturas/Craftech-6.png)
+
+Imagen subida a **Docker Hub** mediante los pipelines
+
+![alt text](Capturas/Craftech-8.png)
 ---
 
 ## Referencias
@@ -72,3 +82,4 @@ Considero que la solución 2 es algo que se asemeja más a una implementación e
 - https://github.com/docker/login-action
 - https://github.com/docker/build-push-action
 - https://github.com/marketplace/actions/docker-compose-action
+- https://github.com/appleboy/ssh-action

@@ -1,4 +1,5 @@
 
+## SOLUCIÓN 2 - Deploy en AWS EC2
 name: CI/CD Pipeline
 #El evento se va a ejecutar cada vez que se modifica el archivo
 on:
@@ -31,7 +32,7 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/nginx:latest
 
-  #Etapa 2 - Deploy de la imagen en el servidor
+  #Etapa 2 - Deploy de la imagen en AWS EC2
   deploy:
       runs-on: ubuntu-latest
       needs: build #Depende de la etapa anterior
@@ -40,10 +41,13 @@ jobs:
       - name: Deploy en EC2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
+          #URL de la instancia EC2
+          host: ${{ secrets.EC2_HOST }} 
           username: ubuntu
+          #Clave SSH para conectarse a la instancia
           key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22  # Asegurar que el puerto esté definido correctamente
+          port: 22 
+          #Obtiene la imagen de Docker Hub y la corre en la instancia 
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
             docker stop nginx-container || true

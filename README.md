@@ -1,7 +1,9 @@
-# Craftech-prueba-tecnica-2025
+# Craftech prueba tecnica 2025
 ---
 
-Dentro de cada una de las carpetas se encuentra la resolución a las Pruebas 1,2 y 3 de la **prueba técnica de Craftech** para el puesto **DevOps Trainee**. Cada carpeta contiene su propio archivo *README* con enunciado, explicación de lo realizado y referencias.
+Dentro de cada una de las carpetas se encuentra la resolución a las Pruebas 1,2 y 3 de la **prueba técnica de Craftech** para el puesto **DevOps Engineer Trainee**. Cada carpeta contiene su propio archivo *README* con enunciado, explicación de lo realizado y referencias.
+
+A modo de resumen, haré una breve explicación de lo realizado en cada una de las pruebas. Para más detalles observar los README dentro de cada una de las carpetas.
 
 ---
 ## Prueba 1
@@ -19,13 +21,17 @@ Se implementó Multi-stage Building para reducir el peso de las imágenes y se d
 ---
 ## Prueba 3
 
-Se implementó un Pipeline CI/CD que, tras un cambio en index.html, buildea una imagen Docker y la sube a Docker Hub, luego realiza el deploy de la nueva versión.
+Se implementaron dos soluciones de Pipeline CI/CD para que, tras un cambio en index.html, buildee una imagen Docker y la suba a Docker Hub, para luego realiza el deploy de la nueva versión.
 
-El pipeline se divide en dos etapas:
-- Obtiene el código, configura Docker Buildx, autentica en Docker Hub, buildea y sube la imagen.
-- Obtiene el código y realiza el despliegue.
+En la **Solución 1**, el deploy se hace en el propio **runner del pipeline** con Docker Compose.
+En la **Solución 2**, el deploy se hace en una instancia **EC2 de AWS** usando SSH.
 
-Para simplicidad, el docker-compose up se ejecuta dentro del pipeline, pero podría implementarse en una instancia EC2 en AWS.
+Los pipelines se dividen en dos etapas:
+- ***Etapa 1 - Build:*** Obtiene el código, configura Docker Buildx, autentica en Docker Hub, buildea y sube la imagen.
+- ***Etapa 2 - Deploy:*** Obtiene el código y realiza el despliegue.
+
+
+
 
 ## Conclusión
 

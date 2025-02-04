@@ -12,8 +12,8 @@ Tener instalado **Docker** y **Docker-Compose** en la **PC local** donde se ejec
 
 ## Instructivo para el Deploy en PC local
 
-- **1.** **Clonar** el repositorio "**Craftech-prueba-tecnica-2025**" -> *git clone url*
-- **2.** Abrir la **terminal** y posicionarse en "**Prueba2-DespliegueApp**" --> *cd Prueba2-DespliegueApp*
+- **1.** **Clonar** el repositorio "**Craftech-prueba-tecnica-2025**" -> *git clone https://github.com/LucianoLoyola/Craftech-prueba-tecnica-2025.git*
+- **2.** Abrir la **terminal** y posicionarse en "**Craftech-prueba-tecnica-2025/Prueba2-DespliegueApp**" --> *cd Craftech-prueba-tecnica-2025/Prueba2-DespliegueApp*
 - **3.** Ejecutar el comando **docker-compose build**
 - **4.** Ejecutar el comando **docker-compose up -d**
 - **5.** Abrir el **navegador** y dirigirse a "**http://localhost**"
@@ -39,6 +39,8 @@ Instructivo basado en el *free trier de AWS.*
 - **2.** **Conectarse desde la terminal utilizando ssh**
   - *ssh -i "Craftech_Prueba2.pem" ubuntu@ec2-54-166-14-178.compute-1.amazonaws.com*
 - **3. Instalar Docker y Docker Compose**
+  - >sudo apt update
+  - >sudo apt upgrade -y
   - >sudo apt install -y docker.io
   - >sudo systemctl enable docker
   - >sudo systemctl start docker
@@ -84,7 +86,7 @@ Defino los tres servicios: Para el backend la aplicación Django utilizando Guni
 Para que los tres contenedores se comuniquen, voy a necesitar crear una **red** que todos tengan compartida. Esta red de tipo bridge se llama app_network.
 Para persistir los datos de la base de datos PostgreSQL voy a crear el **volumen** **postgres_data**.
 
-*Nota:* Quité del *.gitignore* los archivos de entorno (.env) para que puedan replicar la ejecución de docker-compose.
+*Nota:* Quité intencionalmente del *.gitignore* los archivos de entorno (.env) para que puedan replicar la ejecución de docker-compose.
 
 ---
 ## Capturas

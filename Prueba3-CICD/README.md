@@ -14,7 +14,7 @@
 Para la resolución del ejercicio, implementé **dos posibles soluciones**. Ambas soluciones están divididas en dos etapas. En ambas soluciones se desarrolló un Pipeline que se ejecuta tras realizar un cambio en el archivo index.html. Los pipelines se dividen en **dos jobs**: Uno para **buildear** la imágen y subirla a Docker Hub y otro para realizar el **deploy** de la imagen en el servidor.
 
 Este es el **esquema** de ambas soluciones propuestas:
-**Explicación de los Pipelines:**
+**Esquema de los Pipelines:**
 - **Etapa 1 - Build**
   - Obtiene el código
   - Configura Docker Buildx
@@ -53,22 +53,30 @@ Para ello, se deben tener en cuenta los siguientes requisitos:
 - Obtener la dirección pública de la instancia
 - Crear una secret variable en el repositorio de github llamada "**EC2_HOST**" que contenga la dirección pública de la instancia EC2
 - Crear una secret variable en el repositorio de github llamada "**EC2_SSH_KEY**" que almacene el contenido del archivo .pem generado al crear la EC2
-- Instalar docker en el OS
+- Instalar docker en el OS de la instancia EC2
 
 Tras haber seguido correctamente todos los pasos, cada vez que se modifique el archivo **index2.html** el **pipeline ci-cd-EC2.yaml** se encargará de buildear la imágen, subirla a docker hub, conectarse a la instancia **EC2** mediante ssh, obtener la última imágen recientemente subida de Docker Hub y ejecutar el container con la imágen ya modificada.
 
 En entornos reales, los contenedores no suelen desplegarse dentro del runner de CI/CD, sino en servidores en la nube o en Kubernetes. Esta segunda solución refleja mejor un escenario de la realidad.
 
+## Conclusión
+Dentro de Github Actions, en el repositorio, se podrán ver los dos pipelines ejecutados con éxito.
+
+Siendo "**Mejoras generales y cambios en README**" la ejecución del **Pipeline de la solución 1** (Deploy en runner)
+
+Siendo "**Implementada solución 2, pipeline integrado con EC2**" la ejecución del **Pipeline de la solución 2** (AWS EC2)
+
+![alt text](Capturas/Craftech-11.png)
 
 ---
 ## Capturas
 **Pipeline de la solución 1** ejecutado tras realizar un cambio en index.html y pusheo a github
-![alt text](Capturas/Craftech-4.png)
-![alt text](Capturas/Craftech-5.png)
+![alt text](Capturas/Pipeline1-1.png)
+![alt text](Capturas/Pipeline1-2.png)
 
 **Pipeline de la solución 2** ejecutado tras realizar un cambio en index2.html
-
-![alt text](Capturas/Craftech-6.png)
+![alt text](Capturas/Pipeline2-1.png)
+![alt text](Capturas/Pipeline2-2.png)
 
 Imagen subida a **Docker Hub** mediante los pipelines
 

@@ -90,6 +90,9 @@ Para persistir los datos de la base de datos PostgreSQL voy a crear el **volumen
 
 ---
 ## Capturas
+*Aplicación ejecutándose correctamente en PC local*
+![alt text](Capturas/Craftech-9.png)
+
 *EC2 deployeado con éxito*
 ![EC2 Deploy](Capturas/Craftech-1.png)
 

@@ -28,7 +28,7 @@ En la **Solución 2**, el deploy se hace en una instancia **EC2 de AWS** usando 
 
 Los pipelines se dividen en dos etapas:
 - ***Etapa 1 - Build:*** Obtiene el código, configura Docker Buildx, autentica en Docker Hub, buildea y sube la imagen.
-- ***Etapa 2 - Deploy:*** Obtiene el código y realiza el despliegue.
+- ***Etapa 2 - Deploy:*** Obtiene el código y realiza el deploy.
 
 
 

@@ -11,21 +11,51 @@
 
 ## Resolución
 
-Para la resolución del ejercicio, implementé un Pipeline que se ejecuta tras realizar un cambio en el archivo index.html. El Pipeline se divide en **dos jobs**: Uno para **buildear** la imágen y subirla a Docker Hub y otro para realizar el **deploy** de la imagen en el servidor.
+Para la resolución del ejercicio, implementé **dos posibles soluciones**. Ambas soluciones están divididas en dos etapas. En ambas soluciones se desarrolló un Pipeline que se ejecuta tras realizar un cambio en el archivo index.html. Los pipelines se dividen en **dos jobs**: Uno para **buildear** la imágen y subirla a Docker Hub y otro para realizar el **deploy** de la imagen en el servidor.
 
-Para la construcción de la imágen Docker utilizo **Docker Buildx**, el cual me facilita el buildeo de la imágen Docker y el pusheo de la misma a Docker Hub. Elegí Docker Hub porque es uan extensión oficial de Docker. gfc
-
-Explicación del Pipeline:
-- **Etapa 1**
+Este es el **esquema** de ambas soluciones propuestas:
+**Explicación de los Pipelines:**
+- **Etapa 1 - Build**
   - Obtiene el código
   - Configura Docker Buildx
   - Logea a DockerHub
   - Buildea y pushea la imagen
-- **Etapa 2**
+- **Etapa 2 - Deploy**
   - Obtiene el código
   - Realiza el deploy
 
-*Nota:* Por simplicidad, realizo el docker-compose up dentro del pipeline. Esta acción podría intercambiarse para realizar la ejecución del docker-compose pero dentro de otra plataforma (por ejemplo, en una instancia de EC2 dentro de AWS, como fue el caso de la prueba 2).
+La etapa de buildeo es igual para ambas soluciones. Lo único que se diferencia en ambos pipelines desarrolados es la etapa de Deploy. 
+
+Procedo a explicar primero la etapa de Deploy (común a ambas soluciones)
+
+- **Etapa 1 - Build**
+Para la construcción de la imágen Docker utilizo **Docker Buildx**, el cual me facilita el buildeo de la imágen Docker y el pusheo de la misma a Docker Hub. Elegí Docker Buildx porque es una extensión oficial de Docker.
+
+**Solución 1: *ci-cd.yml*** 
+La primer solución la implementé de esta manera porque considero que es una solución más **genérica**. En ella, la etapa de Deploy se encarga de obtener el código del repositorio y realizar un docker-compose up para ejecutar el container dentro del ubuntu que se ejecuta en el pipeline.
+Evidentemente esta situación no es algo que se realice en la realidad, y su deploy debería de realizarse en la nube, no dentro del pipeline. Eso es que me llevó a implementar la solución 2.
+
+Para ejecutar la solución 1, se necesita tener 2 variables secretos en el repositorio de github.
+- **DOCKER_USERNAME**: *usuario de docker hub*
+- **DOCKER_PASSWORD**: *contraseña de docker hub*
+
+Cada vez que se modifique el archivo **index.html**, se ejecutará el **pipeline** de la **solución 1.**
+
+**Solución 2: *ci-cd-EC2.yml***
+Esta solución está más relacionada a una implementación del mundo real, donde el deploy de la imagen se realiza en una instancia **EC2** corriendo en AWS.
+Para ello, se deben tener en cuenta los siguientes requisitos:
+- Tener establecidas las variables secretas necesarias para la solución 1.
+- Crear una instancia EC2
+- Crear un key pair a la hora de crear la instancia EC2 
+- Obtener la dirección pública de la instancia
+- Crear una secret variable en el repositorio de github llamada "**EC2_HOST**" que contenga la dirección pública de la instancia EC2
+- Crear una secret variable en el repositorio de github llamada "**EC2_SSH_KEY**" que almacene el contenido del archivo .pem generado al crear la EC2
+- Instalar docker en el OS
+
+Tras haber seguido correctamente todos los pasos, cada vez que se modifique el archivo **index2.html** el **pipeline** se encargará de buildear la imágen, subirla a docker hub, conectarse a la instancia **EC2** mediante ssh, obtener la última imágen recientemente subida de Docker Hub y ejecutar el container con la imágen ya modificada.
+
+Considero que la solución 2 es algo que se asemeja más a una implementación en la realidad.
+
 
 ---
 ## Capturas
